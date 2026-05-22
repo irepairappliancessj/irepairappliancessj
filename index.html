@@ -1064,7 +1064,7 @@ const SVCS=[
 
 const BKGS=[];
 
-const ST={svc:null,date:null,time:null,area:null,month:new Date(2026,2),bkgs:[...BKGS]};
+const ST={svc:null,date:null,time:null,area:null,month:new Date(),bkgs:[...BKGS]};
 
 function gv(v){document.querySelectorAll('.view').forEach(e=>e.classList.remove('active'));document.getElementById('view-'+v).classList.add('active');window.scrollTo(0,0);if(v==='admin')popAdmin();}
 
@@ -1103,12 +1103,9 @@ const ADAYS=[25,26,27,28,29,31];
 // Returns the first bookable date — 5 business days from today
 function getFirstBookableDay(){
   const tod=new Date();
-  let count=0,cur=new Date(tod.getFullYear(),tod.getMonth(),tod.getDate());
-  while(count<5){
-    cur=new Date(cur.getFullYear(),cur.getMonth(),cur.getDate()+1);
-    if(cur.getDay()!==0&&cur.getDay()!==6) count++;
-  }
-  return cur; // day 5 itself is still blocked; day 6+ is open
+  // Only block today — clients can book from tomorrow onwards
+  const cur=new Date(tod.getFullYear(),tod.getMonth(),tod.getDate());
+  return cur; // today is blocked, tomorrow onwards is openelf is still blocked; day 6+ is open
 }
 
 function mkCal(){
@@ -1834,14 +1831,14 @@ function handleQuickReply(key, label) {
     setTimeout(() => {
       const msgs = document.getElementById('chat-messages');
       const btn = document.createElement('a');
-      btn.href = `sms:+${TECH_PHONE}?body=${TECH_SMS_BODY}`;
+      btn.href = `sms:+14084550729?body=${TECH_SMS_BODY}`;
       btn.style.cssText = 'display:block;background:#8B0012;color:#fff;font-family:Inter,sans-serif;font-size:13px;font-weight:600;padding:12px 16px;border-radius:8px;text-decoration:none;text-align:center;margin-top:4px;letter-spacing:.05em;transition:background .2s;';
       btn.innerHTML = '🚨 Send Emergency Text to Technician';
       btn.onmouseover = () => btn.style.background = '#A8001B';
       btn.onmouseout = () => btn.style.background = '#8B0012';
       msgs.appendChild(btn);
       setTimeout(() => {
-        addBotMessage(`You can also call us directly: <a href="tel:+${TECH_PHONE}" style="color:rgba(200,80,80,0.9);font-weight:600;">+1 (408) 455-0729</a>. We respond to emergencies as quickly as possible.`, 400);
+        addBotMessage(`You can also call us directly: <a href="tel:+14084550729" style="color:rgba(200,80,80,0.9);font-weight:600;">+1 (408) 455-0729</a>. We respond to emergencies as quickly as possible.`, 400);
         setTimeout(() => addFollowUp(), 1200);
       }, 600);
       msgs.scrollTop = msgs.scrollHeight;
